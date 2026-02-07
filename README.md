@@ -16,6 +16,14 @@ A personal health management system for tracking and monitoring health data.
 - **UI Library**: Ant Design
 - **Routing**: React Router
 
+## Demo
+
+![Home](public/home.jpg)
+
+![Health Records](public/record.jpg)
+
+![Data Visualization](public/visualization.jpg)
+
 ## Features
 
 - **User Management**: Registration, login, profile management
