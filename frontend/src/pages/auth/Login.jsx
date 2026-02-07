@@ -20,7 +20,7 @@ const Login = () => {
     try {
       const { role } = await login(payload);
       message.success('login success');
-      navigate(role === 1 ? '/admin/dashboard' : '/user/news-record', { replace: true });
+      navigate(role === 1 ? '/admin/dashboard' : '/user/record', { replace: true });
     } catch (error) {
       message.error(error.message || 'login failed');
     } finally {

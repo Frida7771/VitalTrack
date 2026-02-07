@@ -6,7 +6,7 @@ A personal health management system for tracking and monitoring health data.
 
 ### Backend
 - **Framework**: ASP.NET Core 8.0
-- **ORM**: Entity Framework Core
+- **ORM**: Entity Framework Core 8.0
 - **Database**: MySQL
 - **Authentication**: JWT Bearer Authentication
 
@@ -28,22 +28,29 @@ A personal health management system for tracking and monitoring health data.
 
 ### Backend
 
-1. Configure database connection
+1. Configure environment variables
 
-Edit `backend/VitalTrack.Api/appsettings.json`:
+```bash
+cd backend
+cp .env.example .env
+```
 
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=vital_track;User=root;Password=your-password;"
-  }
-}
+Edit `.env` with your database credentials:
+
+```env
+DB_HOST=localhost
+DB_PORT=3306
+DB_NAME=vital_track
+DB_USER=root
+DB_PASSWORD=your-password
+
+JWT_SECRET_KEY=your-secret-key
+JWT_EXPIRATION_DAYS=7
 ```
 
 2. Run the backend
 
 ```bash
-cd backend
 dotnet restore
 dotnet run --project VitalTrack.Api
 ```
@@ -74,5 +81,3 @@ After starting the backend, access Swagger docs at:
 ```
 http://localhost:21090/swagger
 ```
-
-

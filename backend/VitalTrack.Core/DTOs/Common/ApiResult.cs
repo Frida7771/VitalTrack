@@ -31,7 +31,7 @@ public class ApiResult<T>
 
 public class ApiResult : ApiResult<object>
 {
-    public new static ApiResult Success(string msg = "操作成功") => new() { Code = 200, Msg = msg };
-    public new static ApiResult Error(string msg = "操作失败") => new() { Code = 500, Msg = msg };
+    public static ApiResult Success(string msg = "操作成功") => new() { Code = 200, Msg = msg };
+    public static ApiResult Error(string msg = "操作失败") => new() { Code = 500, Msg = msg };
 }
 

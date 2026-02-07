@@ -24,5 +24,8 @@ wwwroot/uploads/*
 # Production secrets
 appsettings.Production.json
 
+# Environment
+.env
+
 .DS_Store
 

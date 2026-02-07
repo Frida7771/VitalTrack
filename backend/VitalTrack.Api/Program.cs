@@ -1,4 +1,5 @@
 using System.Text;
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -7,6 +8,9 @@ using VitalTrack.Core.Interfaces;
 using VitalTrack.Infrastructure.Data;
 using VitalTrack.Infrastructure.Services;
 using VitalTrack.Infrastructure.Utils;
+
+// Load .env file
+Env.Load("../.env");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,12 +58,17 @@ builder.Services.AddSwaggerGen(options =>
 });
 
 // 配置MySQL数据库
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var dbHost = Environment.GetEnvironmentVariable("DB_HOST") ?? "localhost";
+var dbPort = Environment.GetEnvironmentVariable("DB_PORT") ?? "3306";
+var dbName = Environment.GetEnvironmentVariable("DB_NAME") ?? "vital_track";
+var dbUser = Environment.GetEnvironmentVariable("DB_USER") ?? "root";
+var dbPassword = Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "";
+var connectionString = $"Server={dbHost};Port={dbPort};Database={dbName};User={dbUser};Password={dbPassword};CharSet=utf8mb4;";
 builder.Services.AddDbContext<HealthDbContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 
 // 配置JWT认证
-var jwtSecretKey = builder.Configuration["Jwt:SecretKey"] ?? "d8c986df-8512-42b5-906f-eeea9b3acf86";
+var jwtSecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY") ?? "d8c986df-8512-42b5-906f-eeea9b3acf86";
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

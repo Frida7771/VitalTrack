@@ -99,17 +99,27 @@ public class EvaluationsService : IEvaluationsService
         if (dto.ContentId.HasValue) query = query.Where(x => x.Evaluation.ContentId == dto.ContentId.Value);
 
         var total = await query.CountAsync();
-        var data = await query.OrderByDescending(x => x.Evaluation.CreateTime).Skip(dto.Skip).Take(dto.Take)
-            .Select(x => new EvaluationsVo
+        var rawData = await query.OrderByDescending(x => x.Evaluation.CreateTime).Skip(dto.Skip).Take(dto.Take)
+            .Select(x => new 
             {
-                Id = x.Evaluation.Id, ParentId = x.Evaluation.ParentId, CommenterId = x.Evaluation.CommenterId,
+                x.Evaluation.Id, x.Evaluation.ParentId, x.Evaluation.CommenterId,
                 CommenterName = x.Commenter.UserName, CommenterAvatar = x.Commenter.UserAvatar,
-                ReplierId = x.Evaluation.ReplierId, ReplierName = x.Replier != null ? x.Replier.UserName : null,
-                ContentType = x.Evaluation.ContentType, Content = x.Evaluation.Content, ContentId = x.Evaluation.ContentId,
-                UpvoteList = x.Evaluation.UpvoteList,
-                UpvoteCount = string.IsNullOrEmpty(x.Evaluation.UpvoteList) ? 0 : x.Evaluation.UpvoteList.Split(',').Length,
-                CreateTime = x.Evaluation.CreateTime
+                x.Evaluation.ReplierId, ReplierName = x.Replier != null ? x.Replier.UserName : null,
+                x.Evaluation.ContentType, x.Evaluation.Content, x.Evaluation.ContentId,
+                x.Evaluation.UpvoteList,
+                x.Evaluation.CreateTime
             }).ToListAsync();
+
+        var data = rawData.Select(x => new EvaluationsVo
+        {
+            Id = x.Id, ParentId = x.ParentId, CommenterId = x.CommenterId,
+            CommenterName = x.CommenterName, CommenterAvatar = x.CommenterAvatar,
+            ReplierId = x.ReplierId, ReplierName = x.ReplierName,
+            ContentType = x.ContentType, Content = x.Content, ContentId = x.ContentId,
+            UpvoteList = x.UpvoteList,
+            UpvoteCount = string.IsNullOrEmpty(x.UpvoteList) ? 0 : x.UpvoteList.Split(',').Length,
+            CreateTime = x.CreateTime
+        }).ToList();
 
         return ApiResult<List<EvaluationsVo>>.Success(data, total);
     }
