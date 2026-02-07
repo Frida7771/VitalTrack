@@ -1,0 +1,28 @@
+# Build results
+[Dd]ebug/
+[Rr]elease/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+
+# Rider
+.idea/
+
+# NuGet
+*.nupkg
+**/packages/*
+
+# Uploads
+wwwroot/uploads/*
+!wwwroot/uploads/.gitkeep
+
+# Production secrets
+appsettings.Production.json
+
+.DS_Store
+
